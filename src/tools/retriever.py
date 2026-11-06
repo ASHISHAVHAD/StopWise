@@ -214,3 +214,4 @@ class HybridRetriever:
             if p.get("title", "").lower() == did_lower or p["id"].lower() == did_lower:
                 return {"ok": True, "id": p["id"], "title": p.get("title", ""), "text": p["text"]}
         return {"ok": False, "id": did, "title": "", "text": f"Passage '{did}' not found."}
+

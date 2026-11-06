@@ -74,3 +74,4 @@ def compute_hindsight_metrics(
         "stopped_too_early": int(stopped_too_early),
         "hindsight_correct": int(first_ready_step is not None or final_correct == 1),
     }
+

@@ -52,3 +52,4 @@ def write_jsonl(path: str | Path, records: Iterable[Dict[str, Any]], append: boo
     with open(p, mode, encoding="utf-8") as f:
         for rec in records:
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+

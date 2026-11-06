@@ -44,3 +44,4 @@ def calc(expression: str) -> Dict[str, Any]:
             "result": "",
             "error": f"Calculator error: {type(e).__name__}: {e}",
         }
+

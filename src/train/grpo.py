@@ -117,6 +117,10 @@ def rollout_group_trajectories(
 ) -> List[Dict[str, Any]]:
     """Roll out `group_size` trajectories for a single task using the current policy."""
     model.eval()
+    if hasattr(model, "gradient_checkpointing_disable"):
+        model.gradient_checkpointing_disable()
+    if hasattr(model, "config"):
+        model.config.use_cache = True
     tokenizer.padding_side = "left"
 
     histories: List[List[Dict[str, Any]]] = [[] for _ in range(group_size)]
@@ -275,6 +279,9 @@ def train_grpo_model(
 
     rng = random.Random(seed)
     torch.manual_seed(seed)
+    import gc
+    gc.collect()
+    torch.cuda.empty_cache()
 
     tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
     if tokenizer.pad_token is None:
@@ -286,7 +293,6 @@ def train_grpo_model(
         device_map=device,
         trust_remote_code=True,
     )
-    base_model.gradient_checkpointing_enable()
 
     if init_adapter_path is not None and Path(init_adapter_path).exists():
         model = PeftModel.from_pretrained(base_model, str(init_adapter_path), is_trainable=True)
@@ -419,7 +425,10 @@ def train_grpo_model(
     with open(metrics_file, "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
 
+    del optimizer
     del model
     del base_model
+    gc.collect()
     torch.cuda.empty_cache()
     return summary
+

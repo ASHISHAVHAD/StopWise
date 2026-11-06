@@ -32,3 +32,4 @@ def test_no_train_test_leakage() -> None:
             train_questions = {r["question"].strip() for r in train_rows}
             test_questions = {r["question"].strip() for r in test_rows}
             assert len(train_questions & test_questions) == 0, f"Question text leakage in {domain} ({subdir})"
+

@@ -134,3 +134,4 @@ def run_code(code: str, tests: Optional[List[str]] = None, timeout_seconds: floa
     if res["stderr"]:
         parts.append(f"Stderr: {res['stderr'][:500]}")
     return " | ".join(parts)
+

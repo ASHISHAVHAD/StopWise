@@ -11,3 +11,4 @@ echo "=== Stage 1 (Full Dataset Splits & Hybrid Index) ==="
 
 echo "=== Stage 1 (Unit & Leakage Tests) ==="
 .venv/bin/pytest tests/ -v
+

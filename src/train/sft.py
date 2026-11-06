@@ -263,6 +263,10 @@ def train_sft_model(
             return json.load(f)
 
     torch.manual_seed(seed)
+    import gc
+    gc.collect()
+    torch.cuda.empty_cache()
+
     tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
@@ -273,7 +277,6 @@ def train_sft_model(
         device_map=device,
         trust_remote_code=True,
     )
-    base_model.gradient_checkpointing_enable()
 
     lora_cfg = LoraConfig(
         r=lora_r,
@@ -286,11 +289,13 @@ def train_sft_model(
     model = get_peft_model(base_model, lora_cfg)
     model.train()
 
-    train_ds = SFTDataset(train_examples, tokenizer)
+    micro_batch_size = min(batch_size, 2)
+    effective_accum = max(grad_accum_steps, batch_size // max(1, micro_batch_size))
+    train_ds = SFTDataset(train_examples, tokenizer, max_length=1536)
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=0.01)
 
-    total_Batch = max(1, len(train_ds) // batch_size)
-    total_steps = max(1, (total_Batch * epochs) // grad_accum_steps)
+    total_Batch = max(1, len(train_ds) // micro_batch_size)
+    total_steps = max(1, (total_Batch * epochs) // effective_accum)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=max(1, total_steps))
 
     step_losses: List[float] = []
@@ -301,17 +306,17 @@ def train_sft_model(
     global_step = 0
     for ep in range(epochs):
         rng.shuffle(indices)
-        for start in range(0, len(indices), batch_size):
-            batch_items = [train_ds[i] for i in indices[start : start + batch_size]]
+        for start in range(0, len(indices), micro_batch_size):
+            batch_items = [train_ds[i] for i in indices[start : start + micro_batch_size]]
             batch = _collate_sft(batch_items, tokenizer.pad_token_id)
             batch = {k: v.to(device) for k, v in batch.items()}
 
             outputs = model(**batch)
-            loss = outputs.loss / grad_accum_steps
+            loss = outputs.loss / effective_accum
             loss.backward()
             step_losses.append(float(outputs.loss.item()))
 
-            if ((start // batch_size) + 1) % grad_accum_steps == 0 or (start + batch_size) >= len(indices):
+            if ((start // micro_batch_size) + 1) % effective_accum == 0 or (start + micro_batch_size) >= len(indices):
                 torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
                 optimizer.step()
                 scheduler.step()
@@ -323,6 +328,10 @@ def train_sft_model(
 
     # Evaluate on held-out val_examples for action accuracy and readiness MAE
     model.eval()
+    if hasattr(model, "gradient_checkpointing_disable"):
+        model.gradient_checkpointing_disable()
+    if hasattr(model, "config"):
+        model.config.use_cache = True
     tokenizer.padding_side = "left"
     eval_slice = list(val_examples)[:100]
     correct_action = 0
@@ -374,7 +383,11 @@ def train_sft_model(
     with open(metrics_file, "w", encoding="utf-8") as f:
         json.dump(metrics, f, indent=2)
 
+    del optimizer
+    del scheduler
     del model
     del base_model
+    gc.collect()
     torch.cuda.empty_cache()
     return metrics
+

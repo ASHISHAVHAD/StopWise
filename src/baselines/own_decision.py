@@ -37,3 +37,4 @@ def evaluate_own_decision_on_run(run: Dict[str, Any]) -> Dict[str, Any]:
 def evaluate_own_decision(labelled_runs: Sequence[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """Evaluate own-decision baseline on all labelled runs."""
     return [evaluate_own_decision_on_run(r) for r in labelled_runs]
+

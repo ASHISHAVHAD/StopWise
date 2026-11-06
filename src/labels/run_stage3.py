@@ -181,3 +181,4 @@ if __name__ == "__main__":
     parser.add_argument("--forced-samples", type=int, default=5)
     args = parser.parse_args()
     run_stage3(config_path=args.config, smoke=args.smoke, forced_samples=args.forced_samples)
+

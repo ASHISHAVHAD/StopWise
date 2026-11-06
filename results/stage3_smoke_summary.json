@@ -1,0 +1,70 @@
+{
+  "smoke": true,
+  "forced_samples": 3,
+  "elapsed_sec": 163.28,
+  "splits": {
+    "search_qa_train": {
+      "num_runs": 20,
+      "ready_cutoffs": 21,
+      "not_ready_cutoffs": 32,
+      "total_cutoffs": 53,
+      "mean_wasted_steps": 1.0
+    },
+    "math_train": {
+      "num_runs": 20,
+      "ready_cutoffs": 18,
+      "not_ready_cutoffs": 15,
+      "total_cutoffs": 33,
+      "mean_wasted_steps": 0.9
+    },
+    "code_train": {
+      "num_runs": 20,
+      "ready_cutoffs": 10,
+      "not_ready_cutoffs": 40,
+      "total_cutoffs": 50,
+      "mean_wasted_steps": 0.5
+    },
+    "search_qa_val": {
+      "num_runs": 6,
+      "ready_cutoffs": 6,
+      "not_ready_cutoffs": 8,
+      "total_cutoffs": 14,
+      "mean_wasted_steps": 1.0
+    },
+    "math_val": {
+      "num_runs": 6,
+      "ready_cutoffs": 5,
+      "not_ready_cutoffs": 6,
+      "total_cutoffs": 11,
+      "mean_wasted_steps": 0.8333
+    },
+    "code_val": {
+      "num_runs": 6,
+      "ready_cutoffs": 3,
+      "not_ready_cutoffs": 12,
+      "total_cutoffs": 15,
+      "mean_wasted_steps": 0.5
+    },
+    "search_qa_test": {
+      "num_runs": 20,
+      "ready_cutoffs": 19,
+      "not_ready_cutoffs": 54,
+      "total_cutoffs": 73,
+      "mean_wasted_steps": 0.95
+    },
+    "math_test": {
+      "num_runs": 20,
+      "ready_cutoffs": 16,
+      "not_ready_cutoffs": 16,
+      "total_cutoffs": 32,
+      "mean_wasted_steps": 1.0
+    },
+    "code_test": {
+      "num_runs": 20,
+      "ready_cutoffs": 12,
+      "not_ready_cutoffs": 58,
+      "total_cutoffs": 70,
+      "mean_wasted_steps": 0.6
+    }
+  }
+}

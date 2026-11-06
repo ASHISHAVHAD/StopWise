@@ -80,3 +80,4 @@ def paired_tests(
         "bootstrap_p": round(boot_p, 4),
         "wilcoxon_p": round(wilcox_p, 4),
     }
+

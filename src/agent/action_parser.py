@@ -80,3 +80,4 @@ def parse_forced_answer(raw_text: str) -> str:
         if tag in text:
             text = text.split(tag)[0].strip()
     return text.strip()
+

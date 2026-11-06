@@ -87,12 +87,14 @@ def label_runs_with_cutoffs(
 
     gen_outs: List[Dict[str, Any]] = []
     if expanded_prompts:
+        domains_in_batch = {req["domain"] for req in all_cutoff_requests}
+        max_toks = 112 if "code" in domains_in_batch else 48
         gen_outs = generator.generate_batch(
             expanded_prompts,
-            max_new_tokens=160,
+            max_new_tokens=max_toks,
             temperature=temperature,
             return_confidence=False,
-            batch_size=batch_size,
+            batch_size=min(batch_size, 24),
         )
 
     # Group results back per cutoff request
@@ -163,3 +165,4 @@ def label_runs_with_cutoffs(
         labelled_runs.append(enriched)
 
     return labelled_runs
+

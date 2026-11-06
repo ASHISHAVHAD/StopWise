@@ -160,3 +160,4 @@ def analyze_failures(
         row[f"{cat}_rate_overall"] = round(counts[cat] / n_total, 4)
 
     return {"summary": row, "examples": classified_examples}
+

@@ -35,3 +35,4 @@ def set_seed(seed: int = 0) -> None:
             torch.cuda.manual_seed_all(seed)
     except ImportError:
         pass
+

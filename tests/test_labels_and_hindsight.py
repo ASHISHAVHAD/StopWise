@@ -133,3 +133,4 @@ def test_action_parser() -> None:
     parsed_bad = parse_agent_output(raw_bad)
     assert parsed_bad["valid_action"] is False
     assert parsed_bad["action"] == "INVALID"
+

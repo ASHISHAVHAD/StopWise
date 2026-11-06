@@ -52,3 +52,4 @@ def evaluate_online_runs_against_hindsight(
     summary = summarize_policy_records(records, fixed_limit_curve=fixed_limit_curve, seed=seed)
     summary["early_answer_rate"] = round(early_answer_step1_count / max(1, len(online_runs)), 4)
     return summary, records
+

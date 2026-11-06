@@ -62,3 +62,4 @@ def compute_calibration_metrics(
         "brier": round(brier, 4),
         "bins": bins_data,
     }
+

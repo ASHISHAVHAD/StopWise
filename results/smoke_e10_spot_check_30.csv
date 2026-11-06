@@ -1,0 +1,96 @@
+run_id,task_id,domain,num_steps,forced_at_limit,category,question,final_answer,gold_answer
+base_test_search_qa_hotpot_5a7166395542994082a3e814_s0,search_qa_hotpot_5a7166395542994082a3e814,search_qa,3,False,stopped_too_early,"What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and whose branch campuses ",Kansas Song (We’re From Kansas),Kansas Song
+base_test_search_qa_hotpot_5ab6d09255429954757d337d_s0,search_qa_hotpot_5ab6d09255429954757d337d,search_qa,3,False,repeated_search,The football manager who recruited David Beckham managed Manchester United during what timeframe?,1995–2013,from 1986 to 2013
+base_test_search_qa_hotpot_5a75e05c55429976ec32bc5f_s0,search_qa_hotpot_5a75e05c55429976ec32bc5f,search_qa,5,False,repeated_search,Brown State Fishing Lake is in a country that has a population of how many inhabitants ?,"2,340,000+","9,984"
+base_test_search_qa_hotpot_5a7166395542994082a3e814_s1,search_qa_hotpot_5a7166395542994082a3e814,search_qa,2,False,stopped_too_early,"What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and whose branch campuses ",University of Kansas,Kansas Song
+base_test_search_qa_hotpot_5ab6d09255429954757d337d_s1,search_qa_hotpot_5ab6d09255429954757d337d,search_qa,7,True,repeated_check,The football manager who recruited David Beckham managed Manchester United during what timeframe?,1) is a Scottish former football manager and player who managed Manchester Unite,from 1986 to 2013
+base_test_search_qa_hotpot_5a75e05c55429976ec32bc5f_s1,search_qa_hotpot_5a75e05c55429976ec32bc5f,search_qa,7,True,repeated_check,Brown State Fishing Lake is in a country that has a population of how many inhabitants ?,:,"9,984"
+base_test_search_qa_2wiki_61a46987092f11ebbdaeac1f6bf848b6_s1,search_qa_2wiki_61a46987092f11ebbdaeac1f6bf848b6,search_qa,7,True,repeated_check,"Which film came out first, Blind Shaft or The Mask Of Fu Manchu?",Petrie is absent from this film. | [2wiki_61a46987092f11ebbdaeac1f6bf848b6_4_0] ,The Mask Of Fu Manchu
+base_test_search_qa_2wiki_e2a3bf2a0bdd11eba7f7acde48001122_s1,search_qa_2wiki_e2a3bf2a0bdd11eba7f7acde48001122,search_qa,7,True,repeated_search,"When did John V, Prince Of Anhalt-Zerbst's father die?",House of Ascania and ruler of the principality of Anhalt- Zerbst. He was born an,12 June 1516
+base_test_search_qa_2wiki_0cd3bdea0bde11eba7f7acde48001122_s1,search_qa_2wiki_0cd3bdea0bde11eba7f7acde48001122,search_qa,3,False,stopped_too_early,What is the award that the director of film Wearing Velvet Slippers Under A Golden Umbrella won?,Academy Award nomination for Best Director,Myanmar Motion Picture Academy Awards
+base_test_math_gsm8k_test_2_s0,math_gsm8k_test_2,math,3,False,stopped_too_early,"Josh decides to try flipping a house.  He buys a house for $80,000 and then puts in $50,000 in repairs.  This increased ",-50000,70000
+base_test_math_gsm8k_test_4_s0,math_gsm8k_test_4,math,3,False,stopped_too_early,"Every day, Wendi feeds each of her chickens three cups of mixed chicken feed, containing seeds, mealworms and vegetables",120,20
+base_test_math_gsm8k_test_6_s0,math_gsm8k_test_6,math,2,False,stopped_too_early,Toulouse has twice as many sheep as Charleston. Charleston has 4 times as many sheep as Seattle. How many sheep do Toulo,240,260
+base_test_math_gsm8k_test_7_s0,math_gsm8k_test_7,math,4,False,repeated_calculation,"Carla is downloading a 200 GB file. Normally she can download 2 GB/minute, but 40% of the way through the download, Wind",100,160
+base_test_math_gsm8k_test_8_s0,math_gsm8k_test_8,math,2,False,stopped_too_early,John drives for 3 hours at a speed of 60 mph and then turns around because he realizes he forgot something very importan,315,45
+base_test_math_gsm8k_test_4_s1,math_gsm8k_test_4,math,2,False,stopped_too_early,"Every day, Wendi feeds each of her chickens three cups of mixed chicken feed, containing seeds, mealworms and vegetables",0,20
+base_test_math_gsm8k_test_5_s1,math_gsm8k_test_5,math,2,False,stopped_too_early,"Kylar went to the store to buy glasses for his new apartment. One glass costs $5, but every second glass costs only 60% ",29,64
+base_test_math_gsm8k_test_7_s1,math_gsm8k_test_7,math,5,False,stopped_too_early,"Carla is downloading a 200 GB file. Normally she can download 2 GB/minute, but 40% of the way through the download, Wind",50,160
+base_test_math_gsm8k_test_8_s1,math_gsm8k_test_8,math,2,False,stopped_too_early,John drives for 3 hours at a speed of 60 mph and then turns around because he realizes he forgot something very importan,315,45
+base_test_code_mbpp_test_11_s0,code_mbpp_test_11,code,7,True,repeated_check,"Write a python function to remove first and last occurrence of a given character from the string.
+Write a Python functio","```python
+def remove_Occ(s, ch):
+    # Find the index of the last occurrence of ","def remove_Occ(s,ch): 
+    for i in range(len(s)): 
+        if (s[i] == ch): "
+base_test_code_mbpp_test_13_s0,code_mbpp_test_13,code,7,True,repeated_check,"Write a function to count the most common words in a dictionary.
+Write a Python function `count_common(words)`.
+Example ","```python
+def count_common(words):
+    from collections import Counter
+    word_","from collections import Counter
+def count_common(words):
+  word_counts = Count"
+base_test_code_mbpp_test_15_s0,code_mbpp_test_15,code,7,True,repeated_check,"Write a function to split a string at lowercase letters.
+Write a Python function `split_lowerstring(text)`.
+Example test","```python
+def split_lowerstring(text):
+    result = []
+    current_segment = ''
+","import re
+def split_lowerstring(text):
+ return (re.findall('[a-z][^a-z]*', tex"
+base_test_code_mbpp_test_16_s0,code_mbpp_test_16,code,2,False,stopped_too_early,"Write a function to find sequences of lowercase letters joined with an underscore.
+Write a Python function `text_lowerca","```python
+import re
+
+def text_lowercase_underscore(text):
+    pattern = r'[a-z]+","import re
+def text_lowercase_underscore(text):
+        patterns = '^[a-z]+_[a-"
+base_test_code_mbpp_test_20_s0,code_mbpp_test_20,code,7,True,repeated_check,"Write a function to check if the given number is woodball or not.
+Write a Python function `is_woodall(x)`.
+Example test:","```python
+def is_woodall(x):
+    def is_perfect_number(num):
+        if num < 1:","def is_woodall(x): 
+	if (x % 2 == 0): 
+		return False
+	if (x == 1): 
+		retur"
+base_test_code_mbpp_test_13_s1,code_mbpp_test_13,code,7,True,repeated_check,"Write a function to count the most common words in a dictionary.
+Write a Python function `count_common(words)`.
+Example ","```python
+from collections import Counter
+
+def count_common(words):
+    word_cou","from collections import Counter
+def count_common(words):
+  word_counts = Count"
+base_test_code_mbpp_test_15_s1,code_mbpp_test_15,code,7,True,repeated_check,"Write a function to split a string at lowercase letters.
+Write a Python function `split_lowerstring(text)`.
+Example test","```python
+import re
+
+def split_lowerstring(text):
+    # Split the text at lowerc","import re
+def split_lowerstring(text):
+ return (re.findall('[a-z][^a-z]*', tex"
+base_test_code_mbpp_test_16_s1,code_mbpp_test_16,code,2,False,stopped_too_early,"Write a function to find sequences of lowercase letters joined with an underscore.
+Write a Python function `text_lowerca","```python
+import re
+
+def text_lowercase_underscore(text):
+    pattern = r'[a-z]+","import re
+def text_lowercase_underscore(text):
+        patterns = '^[a-z]+_[a-"
+base_test_code_mbpp_test_20_s1,code_mbpp_test_20,code,7,True,repeated_check,"Write a function to check if the given number is woodball or not.
+Write a Python function `is_woodall(x)`.
+Example test:","```python
+def is_woodall(x):
+    # Calculate the sum of digits
+    digit_sum = s","def is_woodall(x): 
+	if (x % 2 == 0): 
+		return False
+	if (x == 1): 
+		retur"

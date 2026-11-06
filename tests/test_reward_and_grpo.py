@@ -89,3 +89,4 @@ def test_readiness_head() -> None:
     targets = torch.tensor([0.0, 0.4, 0.8, 1.0])
     loss = head.compute_loss(preds, targets)
     assert loss.item() > 0.0
+

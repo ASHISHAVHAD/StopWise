@@ -218,3 +218,4 @@ if __name__ == "__main__":
     parser.add_argument("--smoke", action="store_true")
     args = parser.parse_args()
     run_stage4(config_path=args.config, smoke=args.smoke)
+

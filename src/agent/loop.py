@@ -54,94 +54,126 @@ class LLMGenerator:
     def generate_batch(
         self,
         prompts: Sequence[str],
-        max_new_tokens: int = 256,
+        max_new_tokens: int = 160,
         temperature: float = 0.7,
         top_p: float = 0.9,
         return_confidence: bool = False,
-        batch_size: int = 32,
+        batch_size: int = 24,
     ) -> List[Dict[str, Any]]:
         """Generate completions for a batch of prompts and return text, token counts, and mean token prob."""
         results: List[Dict[str, Any]] = []
         for start in range(0, len(prompts), batch_size):
             sub_prompts = list(prompts[start : start + batch_size])
-            formatted_prompts: List[str] = []
-            for p in sub_prompts:
-                messages = [{"role": "user", "content": p}]
-                if hasattr(self.tokenizer, "apply_chat_template"):
-                    chat_str = self.tokenizer.apply_chat_template(
-                        messages, tokenize=False, add_generation_prompt=True
+            try:
+                results.extend(
+                    self._generate_subbatch(
+                        sub_prompts,
+                        max_new_tokens=max_new_tokens,
+                        temperature=temperature,
+                        top_p=top_p,
+                        return_confidence=return_confidence,
                     )
-                    # If prompt ends with `<answer>`, append the assistant prefix directly
-                    if p.rstrip().endswith("<answer>"):
-                        prefix_lines = p.split("\n\n")[-1]
-                        user_body = p[: -len(prefix_lines)].strip()
-                        chat_str = self.tokenizer.apply_chat_template(
-                            [{"role": "user", "content": user_body}],
-                            tokenize=False,
-                            add_generation_prompt=True,
+                )
+            except torch.cuda.OutOfMemoryError:
+                torch.cuda.empty_cache()
+                half = max(1, len(sub_prompts) // 2)
+                for h_start in range(0, len(sub_prompts), half):
+                    results.extend(
+                        self._generate_subbatch(
+                            sub_prompts[h_start : h_start + half],
+                            max_new_tokens=max_new_tokens,
+                            temperature=temperature,
+                            top_p=top_p,
+                            return_confidence=return_confidence,
                         )
-                        chat_str += prefix_lines
-                    formatted_prompts.append(chat_str)
-                else:
-                    formatted_prompts.append(p)
+                    )
+                torch.cuda.empty_cache()
+        return results
 
-            enc = self.tokenizer(
-                formatted_prompts,
-                return_tensors="pt",
-                padding=True,
-                truncation=True,
-                max_length=3840,
-            ).to(self.device)
-            input_len = enc["input_ids"].shape[1]
-
-            do_sample = temperature > 1e-4
-            with torch.no_grad():
-                gen_out = self.model.generate(
-                    **enc,
-                    max_new_tokens=max_new_tokens,
-                    do_sample=do_sample,
-                    temperature=temperature if do_sample else None,
-                    top_p=top_p if do_sample else None,
-                    pad_token_id=self.tokenizer.pad_token_id,
-                    eos_token_id=self.tokenizer.eos_token_id,
-                    return_dict_in_generate=True,
-                    output_scores=return_confidence,
+    def _generate_subbatch(
+        self,
+        sub_prompts: List[str],
+        max_new_tokens: int,
+        temperature: float,
+        top_p: float,
+        return_confidence: bool,
+    ) -> List[Dict[str, Any]]:
+        results: List[Dict[str, Any]] = []
+        formatted_prompts: List[str] = []
+        for p in sub_prompts:
+            messages = [{"role": "user", "content": p}]
+            if hasattr(self.tokenizer, "apply_chat_template"):
+                chat_str = self.tokenizer.apply_chat_template(
+                    messages, tokenize=False, add_generation_prompt=True
                 )
+                if p.rstrip().endswith("<answer>"):
+                    prefix_lines = p.split("\n\n")[-1]
+                    user_body = p[: -len(prefix_lines)].strip()
+                    chat_str = self.tokenizer.apply_chat_template(
+                        [{"role": "user", "content": user_body}],
+                        tokenize=False,
+                        add_generation_prompt=True,
+                    )
+                    chat_str += prefix_lines
+                formatted_prompts.append(chat_str)
+            else:
+                formatted_prompts.append(p)
 
-            seqs = gen_out.sequences[:, input_len:]
-            for b_idx in range(len(sub_prompts)):
-                gen_ids = seqs[b_idx]
-                # Count non-pad tokens up to EOS
-                non_pad = (gen_ids != self.tokenizer.pad_token_id).nonzero(as_tuple=True)[0]
-                n_tokens = int(len(non_pad)) if len(non_pad) > 0 else 1
-                text = self.tokenizer.decode(gen_ids, skip_special_tokens=True)
+        enc = self.tokenizer(
+            formatted_prompts,
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+            max_length=2048,
+        ).to(self.device)
+        input_len = enc["input_ids"].shape[1]
 
-                # Stop early if model generated `<result>` or `Step `
-                for stop_str in ["<result>", "\nStep "]:
-                    if stop_str in text:
-                        text = text.split(stop_str)[0].strip()
+        do_sample = temperature > 1e-4
+        with torch.no_grad():
+            gen_out = self.model.generate(
+                **enc,
+                max_new_tokens=max_new_tokens,
+                do_sample=do_sample,
+                temperature=temperature if do_sample else None,
+                top_p=top_p if do_sample else None,
+                pad_token_id=self.tokenizer.pad_token_id,
+                eos_token_id=self.tokenizer.eos_token_id,
+                return_dict_in_generate=True,
+                output_scores=return_confidence,
+            )
 
-                token_conf = 0.5
-                if return_confidence and gen_out.scores:
-                    log_probs: List[float] = []
-                    for t_step, logits_step in enumerate(gen_out.scores):
-                        if t_step >= len(gen_ids):
-                            break
-                        tok_id = int(gen_ids[t_step].item())
-                        if tok_id == self.tokenizer.pad_token_id:
-                            break
-                        probs = torch.softmax(logits_step[b_idx].float(), dim=-1)
-                        log_probs.append(float(torch.log(probs[tok_id] + 1e-12).item()))
-                    if log_probs:
-                        token_conf = float(torch.exp(torch.tensor(sum(log_probs) / len(log_probs))).item())
+        seqs = gen_out.sequences[:, input_len:]
+        for b_idx in range(len(sub_prompts)):
+            gen_ids = seqs[b_idx]
+            non_pad = (gen_ids != self.tokenizer.pad_token_id).nonzero(as_tuple=True)[0]
+            n_tokens = int(len(non_pad)) if len(non_pad) > 0 else 1
+            text = self.tokenizer.decode(gen_ids, skip_special_tokens=True)
 
-                results.append(
-                    {
-                        "text": text.strip(),
-                        "tokens_used": n_tokens,
-                        "token_confidence": token_conf,
-                    }
-                )
+            for stop_str in ["<result>", "\nStep "]:
+                if stop_str in text:
+                    text = text.split(stop_str)[0].strip()
+
+            token_conf = 0.5
+            if return_confidence and gen_out.scores:
+                log_probs: List[float] = []
+                for t_step, logits_step in enumerate(gen_out.scores):
+                    if t_step >= len(gen_ids):
+                        break
+                    tok_id = int(gen_ids[t_step].item())
+                    if tok_id == self.tokenizer.pad_token_id:
+                        break
+                    probs = torch.softmax(logits_step[b_idx].float(), dim=-1)
+                    log_probs.append(float(torch.log(probs[tok_id] + 1e-12).item()))
+                if log_probs:
+                    token_conf = float(torch.exp(torch.tensor(sum(log_probs) / len(log_probs))).item())
+
+            results.append(
+                {
+                    "text": text.strip(),
+                    "tokens_used": n_tokens,
+                    "token_confidence": token_conf,
+                }
+            )
         return results
 
 
@@ -246,7 +278,7 @@ def run_agent_batch(
         ]
         gen_outputs = generator.generate_batch(
             prompts,
-            max_new_tokens=256,
+            max_new_tokens=160,
             temperature=temperature,
             return_confidence=True,
             batch_size=batch_size,
@@ -269,7 +301,7 @@ def run_agent_batch(
             retry_prompts = [prompts[li] for li in retry_local_indices]
             retry_outs = generator.generate_batch(
                 retry_prompts,
-                max_new_tokens=256,
+                max_new_tokens=160,
                 temperature=max(0.3, temperature),
                 return_confidence=True,
                 batch_size=batch_size,
@@ -401,3 +433,4 @@ def run_agent_batch(
             }
         )
     return run_records
+

@@ -75,3 +75,4 @@ def sweep_confidence_thresholds(
         per_run = [evaluate_confidence_rule_on_run(r, tau, score_key=score_key) for r in labelled_runs]
         results.append({"threshold": tau, "score_key": score_key, "records": per_run})
     return results
+

@@ -1,0 +1,73 @@
+{
+  "smoke": true,
+  "elapsed_sec": 678.64,
+  "total_runs": 138,
+  "total_correct": 84,
+  "overall_success_rate": 0.6087,
+  "acceptance_passed_ge_25pct": true,
+  "splits": {
+    "search_qa_train": {
+      "num_tasks": 10,
+      "num_runs": 20,
+      "num_correct": 10,
+      "success_rate": 0.5,
+      "mean_steps": 3.6
+    },
+    "math_train": {
+      "num_tasks": 10,
+      "num_runs": 20,
+      "num_correct": 14,
+      "success_rate": 0.7,
+      "mean_steps": 2.65
+    },
+    "code_train": {
+      "num_tasks": 10,
+      "num_runs": 20,
+      "num_correct": 13,
+      "success_rate": 0.65,
+      "mean_steps": 3.3
+    },
+    "search_qa_val": {
+      "num_tasks": 6,
+      "num_runs": 6,
+      "num_correct": 4,
+      "success_rate": 0.6667,
+      "mean_steps": 3.3333
+    },
+    "math_val": {
+      "num_tasks": 6,
+      "num_runs": 6,
+      "num_correct": 5,
+      "success_rate": 0.8333,
+      "mean_steps": 2.8333
+    },
+    "code_val": {
+      "num_tasks": 6,
+      "num_runs": 6,
+      "num_correct": 5,
+      "success_rate": 0.8333,
+      "mean_steps": 3.3333
+    },
+    "search_qa_test": {
+      "num_tasks": 10,
+      "num_runs": 20,
+      "num_correct": 11,
+      "success_rate": 0.55,
+      "mean_steps": 4.4
+    },
+    "math_test": {
+      "num_tasks": 10,
+      "num_runs": 20,
+      "num_correct": 11,
+      "success_rate": 0.55,
+      "mean_steps": 2.6
+    },
+    "code_test": {
+      "num_tasks": 10,
+      "num_runs": 20,
+      "num_correct": 11,
+      "success_rate": 0.55,
+      "mean_steps": 4.15
+    }
+  }
+}

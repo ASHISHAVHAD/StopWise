@@ -39,3 +39,4 @@ def evaluate_hindsight_best_on_run(run: Dict[str, Any]) -> Dict[str, Any]:
 def evaluate_hindsight_best(labelled_runs: Sequence[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """Evaluate oracle hindsight-best ceiling on all labelled runs."""
     return [evaluate_hindsight_best_on_run(r) for r in labelled_runs]
+

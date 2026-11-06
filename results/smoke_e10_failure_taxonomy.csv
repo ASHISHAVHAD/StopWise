@@ -1,0 +1,6 @@
+method,total_runs,total_failures,failure_rate,repeated_search_count,repeated_search_share_of_failures,repeated_search_rate_overall,reopened_source_count,reopened_source_share_of_failures,reopened_source_rate_overall,repeated_check_count,repeated_check_share_of_failures,repeated_check_rate_overall,repeated_calculation_count,repeated_calculation_share_of_failures,repeated_calculation_rate_overall,stopped_too_early_count,stopped_too_early_share_of_failures,stopped_too_early_rate_overall,looped_until_limit_count,looped_until_limit_share_of_failures,looped_until_limit_rate_overall
+Own Decision (Untrained),60,27,0.45,3,0.1111,0.05,0,0.0,0.0,10,0.3704,0.1667,1,0.037,0.0167,13,0.4815,0.2167,0,0.0,0.0
+Method A (SFT),30,15,0.5,4,0.2667,0.1333,1,0.0667,0.0333,4,0.2667,0.1333,2,0.1333,0.0667,4,0.2667,0.1333,0,0.0,0.0
+Method B (GRPO lam=0.1),30,15,0.5,7,0.4667,0.2333,0,0.0,0.0,3,0.2,0.1,3,0.2,0.1,2,0.1333,0.0667,0,0.0,0.0
+Method B (GRPO lam=0.6),30,13,0.4333,7,0.5385,0.2333,0,0.0,0.0,3,0.2308,0.1,1,0.0769,0.0333,2,0.1538,0.0667,0,0.0,0.0
+Method C (SFT+GRPO lam=0.1),30,13,0.4333,4,0.3077,0.1333,1,0.0769,0.0333,4,0.3077,0.1333,3,0.2308,0.1,1,0.0769,0.0333,0,0.0,0.0

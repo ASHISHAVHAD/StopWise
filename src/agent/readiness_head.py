@@ -33,3 +33,4 @@ class ReadinessHead(nn.Module):
     def compute_loss(preds: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
         """Binary cross-entropy loss against cut-off ready_fraction_t targets."""
         return nn.functional.binary_cross_entropy(preds.float(), targets.float())
+

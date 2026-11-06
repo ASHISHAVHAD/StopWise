@@ -82,3 +82,4 @@ def test_calculator_tool() -> None:
     c3 = calc("1/3 + 1/6")
     assert c3["ok"] is True
     assert c3["result"] == "0.5"
+

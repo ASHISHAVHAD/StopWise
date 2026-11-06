@@ -214,3 +214,4 @@ def extract_musique_item(row: Dict[str, Any], idx: int, split_name: str) -> Tupl
         "gold_passage_ids": gold_passage_ids,
     }
     return task, passages
+

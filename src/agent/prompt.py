@@ -164,3 +164,4 @@ def build_forced_answer_prompt(task: Dict[str, Any], history: List[Dict[str, Any
         f"<action>ANSWER</action>\n<args></args>\n<ready>1.00</ready>\n<answer>"
     )
     return "\n\n".join(parts)
+
