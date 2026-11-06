@@ -59,11 +59,13 @@ class LLMGenerator:
         top_p: float = 0.9,
         return_confidence: bool = False,
         batch_size: int = 24,
+        num_return_sequences: int = 1,
     ) -> List[Dict[str, Any]]:
         """Generate completions for a batch of prompts and return text, token counts, and mean token prob."""
         results: List[Dict[str, Any]] = []
-        for start in range(0, len(prompts), batch_size):
-            sub_prompts = list(prompts[start : start + batch_size])
+        eff_batch_size = max(1, batch_size // max(1, num_return_sequences))
+        for start in range(0, len(prompts), eff_batch_size):
+            sub_prompts = list(prompts[start : start + eff_batch_size])
             try:
                 results.extend(
                     self._generate_subbatch(
@@ -72,6 +74,7 @@ class LLMGenerator:
                         temperature=temperature,
                         top_p=top_p,
                         return_confidence=return_confidence,
+                        num_return_sequences=num_return_sequences,
                     )
                 )
             except torch.cuda.OutOfMemoryError:
@@ -85,6 +88,7 @@ class LLMGenerator:
                             temperature=temperature,
                             top_p=top_p,
                             return_confidence=return_confidence,
+                            num_return_sequences=num_return_sequences,
                         )
                     )
                 torch.cuda.empty_cache()
@@ -97,6 +101,7 @@ class LLMGenerator:
         temperature: float,
         top_p: float,
         return_confidence: bool,
+        num_return_sequences: int = 1,
     ) -> List[Dict[str, Any]]:
         results: List[Dict[str, Any]] = []
         formatted_prompts: List[str] = []
@@ -128,7 +133,7 @@ class LLMGenerator:
         ).to(self.device)
         input_len = enc["input_ids"].shape[1]
 
-        do_sample = temperature > 1e-4
+        do_sample = temperature > 1e-4 or num_return_sequences > 1
         with torch.no_grad():
             gen_out = self.model.generate(
                 **enc,
@@ -136,6 +141,7 @@ class LLMGenerator:
                 do_sample=do_sample,
                 temperature=temperature if do_sample else None,
                 top_p=top_p if do_sample else None,
+                num_return_sequences=num_return_sequences,
                 pad_token_id=self.tokenizer.pad_token_id,
                 eos_token_id=self.tokenizer.eos_token_id,
                 return_dict_in_generate=True,
@@ -143,7 +149,8 @@ class LLMGenerator:
             )
 
         seqs = gen_out.sequences[:, input_len:]
-        for b_idx in range(len(sub_prompts)):
+        total_out = seqs.shape[0]
+        for b_idx in range(total_out):
             gen_ids = seqs[b_idx]
             non_pad = (gen_ids != self.tokenizer.pad_token_id).nonzero(as_tuple=True)[0]
             n_tokens = int(len(non_pad)) if len(non_pad) > 0 else 1

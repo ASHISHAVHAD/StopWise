@@ -79,22 +79,19 @@ def label_runs_with_cutoffs(
         reqs = build_cutoff_prompts_for_run(run, task)
         all_cutoff_requests.extend(reqs)
 
-    # Expand prompts by `forced_samples` for batched generation
-    expanded_prompts: List[str] = []
-    for req in all_cutoff_requests:
-        for _ in range(forced_samples):
-            expanded_prompts.append(req["prompt"])
+    unique_prompts: List[str] = [req["prompt"] for req in all_cutoff_requests]
 
     gen_outs: List[Dict[str, Any]] = []
-    if expanded_prompts:
+    if unique_prompts:
         domains_in_batch = {req["domain"] for req in all_cutoff_requests}
-        max_toks = 112 if "code" in domains_in_batch else 48
+        max_toks = 96 if "code" in domains_in_batch else 28
         gen_outs = generator.generate_batch(
-            expanded_prompts,
+            unique_prompts,
             max_new_tokens=max_toks,
             temperature=temperature,
             return_confidence=False,
-            batch_size=min(batch_size, 24),
+            batch_size=40,
+            num_return_sequences=forced_samples,
         )
 
     # Group results back per cutoff request
