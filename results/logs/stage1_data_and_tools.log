@@ -1,0 +1,32 @@
+[2026-11-06 17:09:28] [INFO] stage1: Downloading / loading raw datasets from HuggingFace cache...
+[2026-11-06 17:09:48] [INFO] stage1: Raw dataset row counts: {"hotpot_qa_train": 90447, "hotpot_qa_validation": 7405, "2wikimultihopqa_validation": 12576, "musique_validation": 2417, "gsm8k_train": 7473, "gsm8k_test": 1319, "mbpp_full_train": 374, "mbpp_full_validation": 90, "mbpp_full_test": 500, "humaneval_test": 164}
+[2026-11-06 17:09:48] [INFO] stage1: Saved split search_qa_train: 20 tasks
+[2026-11-06 17:09:48] [INFO] stage1: Saved split search_qa_val: 10 tasks
+[2026-11-06 17:09:48] [INFO] stage1: Saved split search_qa_test: 20 tasks
+[2026-11-06 17:09:48] [INFO] stage1: Saved split math_train: 20 tasks
+[2026-11-06 17:09:48] [INFO] stage1: Saved split math_val: 10 tasks
+[2026-11-06 17:09:48] [INFO] stage1: Saved split math_test: 20 tasks
+[2026-11-06 17:09:48] [INFO] stage1: Saved split code_train: 20 tasks
+[2026-11-06 17:09:48] [INFO] stage1: Saved split code_val: 10 tasks
+[2026-11-06 17:09:48] [INFO] stage1: Saved split code_test: 20 tasks
+[2026-11-06 17:09:48] [INFO] stage1: Building HybridRetriever index over 801 raw passage chunks -> data/index_smoke...
+[2026-11-06 17:10:23] [INFO] stage1: Indexed 784 unique passage chunks.
+[2026-11-06 17:10:24] [INFO] stage1: Stage 1 Acceptance Check - Retrieval Recall@3 on 10-question dev slice: Title Recall@3 = 1.0000, Passage Recall@3 = 1.0000
+[2026-11-06 17:10:26] [INFO] stage1: Stage 1 complete. Summary written to results/stage1_smoke_summary.json
+[2026-11-06 17:10:32] [INFO] stage1: Downloading / loading raw datasets from HuggingFace cache...
+[2026-11-06 17:10:52] [INFO] stage1: Raw dataset row counts: {"hotpot_qa_train": 90447, "hotpot_qa_validation": 7405, "2wikimultihopqa_validation": 12576, "musique_validation": 2417, "gsm8k_train": 7473, "gsm8k_test": 1319, "mbpp_full_train": 374, "mbpp_full_validation": 90, "mbpp_full_test": 500, "humaneval_test": 164}
+[2026-11-06 17:10:53] [INFO] stage1: Saved split search_qa_train: 2000 tasks
+[2026-11-06 17:10:53] [INFO] stage1: Saved split search_qa_val: 100 tasks
+[2026-11-06 17:10:53] [INFO] stage1: Saved split search_qa_test: 300 tasks
+[2026-11-06 17:10:53] [INFO] stage1: Saved split math_train: 2000 tasks
+[2026-11-06 17:10:53] [INFO] stage1: Saved split math_val: 100 tasks
+[2026-11-06 17:10:53] [INFO] stage1: Saved split math_test: 300 tasks
+[2026-11-06 17:10:53] [INFO] stage1: Saved split code_train: 724 tasks
+[2026-11-06 17:10:53] [INFO] stage1: Saved split code_val: 90 tasks
+[2026-11-06 17:10:53] [INFO] stage1: Saved split code_test: 300 tasks
+[2026-11-06 17:10:53] [INFO] stage1: Building HybridRetriever index over 15662 raw passage chunks -> data/index...
+[2026-11-06 17:11:07] [INFO] stage1: Indexed 14704 unique passage chunks.
+[2026-11-06 17:11:19] [INFO] stage1: Stage 1 Acceptance Check - Retrieval Recall@3 on 100-question dev slice: Title Recall@3 = 0.9800, Passage Recall@3 = 0.9800
+[2026-11-06 17:11:21] [INFO] stage1: Stage 1 complete. Summary written to results/stage1_data_summary.json
+[2026-11-06 17:13:12] [INFO] stage1: Stage 1 outputs already exist at results/stage1_smoke_summary.json; loading cached summary.
+[2026-11-06 17:13:18] [INFO] stage1: Stage 1 outputs already exist at results/stage1_data_summary.json; loading cached summary.

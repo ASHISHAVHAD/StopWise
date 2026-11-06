@@ -1,0 +1,34 @@
+{
+  "smoke": true,
+  "raw_dataset_counts": {
+    "hotpot_qa_train": 90447,
+    "hotpot_qa_validation": 7405,
+    "2wikimultihopqa_validation": 12576,
+    "musique_validation": 2417,
+    "gsm8k_train": 7473,
+    "gsm8k_test": 1319,
+    "mbpp_full_train": 374,
+    "mbpp_full_validation": 90,
+    "mbpp_full_test": 500,
+    "humaneval_test": 164
+  },
+  "split_counts": {
+    "search_qa_train": 20,
+    "search_qa_val": 10,
+    "search_qa_test": 20,
+    "math_train": 20,
+    "math_val": 10,
+    "math_test": 20,
+    "code_train": 20,
+    "code_val": 10,
+    "code_test": 20
+  },
+  "indexed_unique_passages": 784,
+  "acceptance_checks": {
+    "dev_slice_size": 10,
+    "retrieval_recall_at_3_title": 1.0,
+    "retrieval_recall_at_3_passage": 1.0,
+    "sandbox_infinite_loop_killed": true,
+    "calculator_check_passed": true
+  }
+}
