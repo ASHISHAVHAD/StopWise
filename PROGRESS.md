@@ -1,7 +1,7 @@
 # StopWise Project Progress (`PROGRESS.md`)
 
-## Current Status (Updated 2026-11-07 14:05 IST)
-- **Currently Running**: **NONE** (Full-scale Stage 4 completed; paused awaiting user confirmation to launch **Stage 5: Method A (LoRA SFT on Cut-Off Labels) & E3 Evaluation**).
+## Current Status (Updated 2026-11-07 15:04 IST)
+- **Currently Running**: **NONE** (Full-scale Stage 5 completed; paused awaiting user confirmation to launch **Stage 6: Full-Scale Methods B & C (GRPO $\lambda$ Sweep) & E4/E5 Evaluation**).
 
 ---
 
@@ -26,6 +26,15 @@
   - `math`: **65.5% ± 6.5%** continue after ready (**0.960 ± 0.123** wasted steps), **33.5% ± 6.2%** stop too early. Untrained accuracy = **62.5% ± 6.5%** (3.07 steps) vs. Hindsight Ceiling = **67.0% ± 6.3%** (2.11 steps).
   - `code`: **56.5% ± 6.8%** continue after ready (**0.610 ± 0.083** wasted steps), **11.5% ± 4.3%** stop too early. Untrained accuracy = **57.0% ± 6.5%** (3.98 steps) vs. Hindsight Ceiling = **57.5% ± 6.8%** (3.37 steps).
 
+### Stage 5: Method A (LoRA SFT on Cut-Off Labels) & E3 Evaluation — **COMPLETED**
+- Built **3,022** balanced 50/50 `ready`/`not_ready` SFT training examples (`search_qa=548`, `math=1,040`, `code=1,434`) and trained `Qwen/Qwen2.5-3B-Instruct` LoRA (`r=16, alpha=32, lr=1e-4, 3 epochs, 1,134 steps`, final train loss `0.0651`) in `checkpoints/full/method_a_sft`.
+- **Held-Out Validation Acceptance Check** ([stage5_sft_summary.json](results/stage5_sft_summary.json)):
+  - Action accuracy = **72.0%**, Binary Stop/Continue accuracy = **81.0%**, Readiness MAE = **0.185**.
+- **Online E3 Evaluation ($N=100$ test tasks per domain)** ([e3_method_a.csv](results/e3_method_a.csv)):
+  - `search_qa`: Accuracy = **35.0% ± 9.0%** (vs. 32.5% Untrained), Mean Steps = **2.770 ± 0.190** (34.2% fewer steps than Untrained 4.21), Wasted Steps = **0.780 ± 0.220**.
+  - `code`: Accuracy = **57.0% ± 9.5%** (matches Untrained & Best Fixed-Limit 57.0%), Mean Steps = **2.210 ± 0.090** (44.4% fewer steps than Untrained 3.98, saving **1.77 steps** vs. Best Fixed-Limit).
+  - `math`: Accuracy = **47.0% ± 10.0%**, Mean Steps = **2.140 ± 0.070** (down from 3.07 steps; aggressive early stopping on math motivates RL verification in Methods B/C).
+
 ---
 
 ## Stage Checklist
@@ -35,7 +44,7 @@
 - [x] **Stage 2 (Full)**: Collect base agent runs (2,130 trajectories, 52.82% overall success rate)
 - [x] **Stage 3 (Full)**: Cut-off label builder & hindsight stop computation (7,014 cut-offs, 35,070 forced answers)
 - [x] **Stage 4 (Full)**: Baselines & E1/E2 problem measurement (600 test runs, 1,000 bootstrap resamples)
-- [ ] **Stage 5 (Full)**: Method A (SFT) & E3 evaluation (awaiting user approval — ~12–15 minutes)
-- [ ] **Stage 6 (Full)**: Methods B and C (GRPO $\lambda$ sweep) & E4/E5 evaluation
+- [x] **Stage 5 (Full)**: Method A (SFT) & E3 evaluation (3,022 examples, 81% val stop acc, online E3 complete)
+- [ ] **Stage 6 (Full)**: Methods B and C (GRPO $\lambda$ sweep) & E4/E5 evaluation (awaiting user approval)
 - [ ] **Stage 7 (Full)**: Experiments E6, E7, E8, E9, E10, E11
 - [ ] **Stage 8**: Regenerate all figures via `scripts/make_figures.sh`, run quality checks, write `REPORT.md`
