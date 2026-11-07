@@ -1,7 +1,16 @@
 # StopWise Project Progress (`PROGRESS.md`)
 
-## Current Status (Updated 2026-11-07 15:04 IST)
-- **Currently Running**: **NONE** (Full-scale Stage 5 completed; paused awaiting user confirmation to launch **Stage 6: Full-Scale Methods B & C (GRPO $\lambda$ Sweep) & E4/E5 Evaluation**).
+## Current Status (Updated 2026-11-07 17:45 IST)
+- **Currently Running**: **NONE** (Paused cleanly after **Model 2 (`Method B, λ = 0.1`)** finished and saved its checkpoint, per user instruction).
+- **Stage 6 Checkpoint Progress**:
+  - **Model 1 (`Method B, λ = 0.0`)**: **COMPLETED** (`80/80` steps saved in [checkpoints/full/method_b_lam_0p0/](checkpoints/full/method_b_lam_0p0/grpo_metrics.json); `mean_correct_last30 = 25.4%`, `mean_steps_last30 = 4.16`, `early_answer_rate = 0.0%`).
+  - **Model 2 (`Method B, λ = 0.1`)**: **COMPLETED** (`80/80` steps saved in [checkpoints/full/method_b_lam_0p1/](checkpoints/full/method_b_lam_0p1/grpo_metrics.json); `mean_correct_last30 = 32.9%`, `mean_steps_last30 = 3.94`, `early_answer_rate = 0.0%`).
+  - **Remaining in Stage 6 (Resumable)**:
+    - Model 3: `Method B (λ = 0.3)`
+    - Model 4: `Method B (λ = 0.6)`
+    - Model 5: `Method C (SFT → GRPO, λ = 0.1)`
+    - Model 6: `Method C (SFT → GRPO, λ = 0.3)`
+    - Online E4 & E5 evaluation across all 300 test tasks.
 
 ---
 
