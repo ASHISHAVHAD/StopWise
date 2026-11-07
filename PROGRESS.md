@@ -1,7 +1,7 @@
 # StopWise Project Progress (`PROGRESS.md`)
 
-## Current Status (Updated 2026-11-07 14:00 IST)
-- **Currently Running**: **NONE** (Full-scale Stage 3 completed; paused awaiting user confirmation to launch **Stage 4: Baselines & Problem Size Measurement (E1 & E2)**).
+## Current Status (Updated 2026-11-07 14:05 IST)
+- **Currently Running**: **NONE** (Full-scale Stage 4 completed; paused awaiting user confirmation to launch **Stage 5: Method A (LoRA SFT on Cut-Off Labels) & E3 Evaluation**).
 
 ---
 
@@ -18,17 +18,13 @@
 
 ### Stage 3: Full-Scale Cut-Off Labelling (`5` Forced Samples per Step) — **COMPLETED**
 - Labelled all **2,130** trajectories across **7,014** intermediate step cut-offs (`35,070` forced-answer evaluations) and saved enriched trajectories to `runs/full/*_labelled.jsonl`.
-- Generated [stage3_cutoff_summary.json](results/stage3_cutoff_summary.json), [stage3_ready_by_step.csv](results/stage3_ready_by_step.csv), and [stage3_ready_by_step.png](results/stage3_ready_by_step.png).
-- **Per-Split Cut-Off Label Counts & Mean Wasted Steps**:
-  - `search_qa_train` (480 runs): **1,743** cut-offs (`421` ready / `1,322` not_ready), mean wasted steps = **1.1646**
-  - `math_train` (480 runs): **1,320** cut-offs (`523` ready / `797` not_ready), mean wasted steps = **1.0479**
-  - `code_train` (480 runs): **1,859** cut-offs (`769` ready / `1,090` not_ready), mean wasted steps = **1.4229**
-  - `search_qa_val` (30 runs): **118** cut-offs (`30` ready / `88` not_ready), mean wasted steps = **1.2333**
-  - `math_val` (30 runs): **66** cut-offs (`24` ready / `42` not_ready), mean wasted steps = **0.9000**
-  - `code_val` (30 runs): **126** cut-offs (`17` ready / `109` not_ready), mean wasted steps = **0.6333**
-  - `search_qa_test` (200 runs): **701** cut-offs (`152` ready / `549` not_ready), mean wasted steps = **1.1350**
-  - `math_test` (200 runs): **421** cut-offs (`183` ready / `238` not_ready), mean wasted steps = **0.9600**
-  - `code_test` (200 runs): **660** cut-offs (`120` ready / `540` not_ready), mean wasted steps = **0.6100**
+
+### Stage 4: Baselines & Problem Size Measurement (E1 & E2) — **COMPLETED**
+- Saved [e1_problem_size.csv](results/e1_problem_size.csv), [e2_baselines_curves.csv](results/e2_baselines_curves.csv), [e2_baselines_summary.csv](results/e2_baselines_summary.csv), and [stage4_summary.json](results/stage4_summary.json).
+- **E1 Key Findings ($N=200$ test runs per domain)**:
+  - `search_qa`: **46.5% ± 6.5%** continue after ready (**1.135 ± 0.238** wasted steps), **33.0% ± 6.0%** stop too early. Untrained accuracy = **32.5% ± 6.2%** (4.21 steps) vs. Hindsight Ceiling = **50.0% ± 6.5%** (3.07 steps).
+  - `math`: **65.5% ± 6.5%** continue after ready (**0.960 ± 0.123** wasted steps), **33.5% ± 6.2%** stop too early. Untrained accuracy = **62.5% ± 6.5%** (3.07 steps) vs. Hindsight Ceiling = **67.0% ± 6.3%** (2.11 steps).
+  - `code`: **56.5% ± 6.8%** continue after ready (**0.610 ± 0.083** wasted steps), **11.5% ± 4.3%** stop too early. Untrained accuracy = **57.0% ± 6.5%** (3.98 steps) vs. Hindsight Ceiling = **57.5% ± 6.8%** (3.37 steps).
 
 ---
 
@@ -38,8 +34,8 @@
 - [x] **All Smoke Tests (Stages 2–7 + Figures)**: Completed & verified
 - [x] **Stage 2 (Full)**: Collect base agent runs (2,130 trajectories, 52.82% overall success rate)
 - [x] **Stage 3 (Full)**: Cut-off label builder & hindsight stop computation (7,014 cut-offs, 35,070 forced answers)
-- [ ] **Stage 4 (Full)**: Baselines & E1/E2 problem measurement (awaiting user approval — ~15 seconds)
-- [ ] **Stage 5 (Full)**: Method A (SFT) & E3 evaluation
+- [x] **Stage 4 (Full)**: Baselines & E1/E2 problem measurement (600 test runs, 1,000 bootstrap resamples)
+- [ ] **Stage 5 (Full)**: Method A (SFT) & E3 evaluation (awaiting user approval — ~12–15 minutes)
 - [ ] **Stage 6 (Full)**: Methods B and C (GRPO $\lambda$ sweep) & E4/E5 evaluation
 - [ ] **Stage 7 (Full)**: Experiments E6, E7, E8, E9, E10, E11
 - [ ] **Stage 8**: Regenerate all figures via `scripts/make_figures.sh`, run quality checks, write `REPORT.md`

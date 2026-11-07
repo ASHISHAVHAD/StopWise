@@ -1,0 +1,4 @@
+domain,n_runs,untrained_accuracy,untrained_accuracy_ci,hindsight_ceiling_accuracy,hindsight_ceiling_ci,mean_steps,mean_steps_ci,share_continuing_after_ready,share_continuing_after_ready_ci,mean_wasted_steps,mean_wasted_steps_ci,share_stopping_too_early,share_stopping_too_early_ci
+search_qa,200,0.325,0.325 ± 0.062,0.5,0.500 ± 0.065,4.205,4.205 ± 0.268,0.465,0.465 ± 0.065,1.135,1.135 ± 0.238,0.33,0.330 ± 0.060
+math,200,0.625,0.625 ± 0.065,0.67,0.670 ± 0.063,3.065,3.065 ± 0.170,0.655,0.655 ± 0.065,0.96,0.960 ± 0.123,0.335,0.335 ± 0.062
+code,200,0.57,0.570 ± 0.065,0.575,0.575 ± 0.068,3.98,3.980 ± 0.325,0.565,0.565 ± 0.068,0.61,0.610 ± 0.083,0.115,0.115 ± 0.043
