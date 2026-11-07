@@ -1,16 +1,7 @@
 # StopWise Project Progress (`PROGRESS.md`)
 
-## Current Status (Updated 2026-11-07 17:45 IST)
-- **Currently Running**: **NONE** (Paused cleanly after **Model 2 (`Method B, λ = 0.1`)** finished and saved its checkpoint, per user instruction).
-- **Stage 6 Checkpoint Progress**:
-  - **Model 1 (`Method B, λ = 0.0`)**: **COMPLETED** (`80/80` steps saved in [checkpoints/full/method_b_lam_0p0/](checkpoints/full/method_b_lam_0p0/grpo_metrics.json); `mean_correct_last30 = 25.4%`, `mean_steps_last30 = 4.16`, `early_answer_rate = 0.0%`).
-  - **Model 2 (`Method B, λ = 0.1`)**: **COMPLETED** (`80/80` steps saved in [checkpoints/full/method_b_lam_0p1/](checkpoints/full/method_b_lam_0p1/grpo_metrics.json); `mean_correct_last30 = 32.9%`, `mean_steps_last30 = 3.94`, `early_answer_rate = 0.0%`).
-  - **Remaining in Stage 6 (Resumable)**:
-    - Model 3: `Method B (λ = 0.3)`
-    - Model 4: `Method B (λ = 0.6)`
-    - Model 5: `Method C (SFT → GRPO, λ = 0.1)`
-    - Model 6: `Method C (SFT → GRPO, λ = 0.3)`
-    - Online E4 & E5 evaluation across all 300 test tasks.
+## Current Status (Updated 2026-11-08 04:18 IST)
+- **Currently Running**: **NONE** (Full-scale Stage 6 completed overnight; paused awaiting user confirmation to launch **Stage 7: Full-Scale Experiments E6–E11**).
 
 ---
 
@@ -44,6 +35,19 @@
   - `code`: Accuracy = **57.0% ± 9.5%** (matches Untrained & Best Fixed-Limit 57.0%), Mean Steps = **2.210 ± 0.090** (44.4% fewer steps than Untrained 3.98, saving **1.77 steps** vs. Best Fixed-Limit).
   - `math`: Accuracy = **47.0% ± 10.0%**, Mean Steps = **2.140 ± 0.070** (down from 3.07 steps; aggressive early stopping on math motivates RL verification in Methods B/C).
 
+### Stage 6: Methods B & C (GRPO $\lambda$ Sweep) & E4/E5 Evaluation — **COMPLETED**
+- Trained all **6** full-scale GRPO models (`80` steps $\times$ `8` group rollouts each = `3,840` training rollouts) in `checkpoints/full/method_b_lam_*` and `checkpoints/full/method_c_lam_*` with `<result>` span masking and KL penalty (`0.01`).
+- Evaluated all **6** models online across the `300` test tasks (`1,800` test trajectories) and saved [e4_method_b_lambda_sweep.csv](results/e4_method_b_lambda_sweep.csv), [e5_method_c.csv](results/e5_method_c.csv), and [stage6_grpo_summary.json](results/stage6_grpo_summary.json).
+- **E4 Key Findings (Method B GRPO from Base)**:
+  - `search_qa`: $\lambda=0.0$ reaches **39.0% ± 9.5%** (4.30 steps); $\lambda=0.3$ reaches **36.0% ± 9.0%** (4.01 steps); $\lambda=0.6$ reaches **35.0% ± 8.5%** (3.96 steps) — all improving over Untrained (32.5%, 4.21 steps).
+  - `math`: $\lambda=0.3$ reaches **64.0% ± 9.5%** (3.20 steps) and $\lambda=0.6$ reaches **65.0% ± 9.0%** (**2.97 ± 0.21** steps) — beating Untrained (62.5%, 3.07 steps) and Best Fixed-Limit (62.5%, 2.98 steps).
+  - `code`: $\lambda=0.1$ reaches **60.0% ± 10.0%** (3.80 steps) and $\lambda=0.6$ reaches **64.0% ± 9.5%** (**3.63 ± 0.44** steps) — improving +7.0% over Untrained and Best Fixed-Limit (57.0%, 3.98 steps).
+  - Step-1 reward hacking (`early_answer_rate`) remained **0.0%–1.0%** across all $\lambda \in \{0.0, 0.1, 0.3, 0.6\}$.
+- **E5 Key Findings (Method C: Method A SFT $\rightarrow$ GRPO)**:
+  - `code` ($\lambda=0.1$): **58.0% ± 10.0%** accuracy in **2.070 ± 0.055** steps (saving **1.91 steps** / 48% fewer steps than Untrained & Best Fixed-Limit while improving accuracy from 57.0% to 58.0%).
+  - `search_qa` ($\lambda=0.1$): **35.0% ± 9.0%** accuracy in **2.100 ± 0.055** steps (50.1% fewer steps than Untrained 4.21, cutting wasted steps from `1.14` to `0.40 ± 0.10`).
+  - `math` ($\lambda=0.3$): **46.0% ± 9.5%** accuracy in **2.070 ± 0.055** steps (constrained by the SFT initialization's 2-step horizon vs. Method B's 65.0% at 2.97 steps).
+
 ---
 
 ## Stage Checklist
@@ -54,6 +58,6 @@
 - [x] **Stage 3 (Full)**: Cut-off label builder & hindsight stop computation (7,014 cut-offs, 35,070 forced answers)
 - [x] **Stage 4 (Full)**: Baselines & E1/E2 problem measurement (600 test runs, 1,000 bootstrap resamples)
 - [x] **Stage 5 (Full)**: Method A (SFT) & E3 evaluation (3,022 examples, 81% val stop acc, online E3 complete)
-- [ ] **Stage 6 (Full)**: Methods B and C (GRPO $\lambda$ sweep) & E4/E5 evaluation (awaiting user approval)
-- [ ] **Stage 7 (Full)**: Experiments E6, E7, E8, E9, E10, E11
+- [x] **Stage 6 (Full)**: Methods B and C (GRPO $\lambda$ sweep) & E4/E5 evaluation (6 GRPO models, 1,800 online test trajectories)
+- [ ] **Stage 7 (Full)**: Experiments E6, E7, E8, E9, E10, E11 (awaiting user approval)
 - [ ] **Stage 8**: Regenerate all figures via `scripts/make_figures.sh`, run quality checks, write `REPORT.md`
