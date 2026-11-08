@@ -1,0 +1,5 @@
+model,ece,brier,n_samples
+Untrained Base Agent (Text Readiness),0.164,0.2471,2250
+Method A (SFT Text Readiness),0.4982,0.5021,712
+Method C (SFT+GRPO Text Readiness),0.5152,0.5137,620
+Trained ReadinessHead (Linear Probe),0.0769,0.1639,2250

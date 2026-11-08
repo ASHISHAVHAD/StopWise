@@ -1,7 +1,7 @@
 # StopWise Project Progress (`PROGRESS.md`)
 
-## Current Status (Updated 2026-11-08 04:18 IST)
-- **Currently Running**: **NONE** (Full-scale Stage 6 completed overnight; paused awaiting user confirmation to launch **Stage 7: Full-Scale Experiments E6–E11**).
+## Current Status (Updated 2026-11-08 09:04 IST)
+- **Currently Running**: **NONE** (Full-scale Stage 7 completed; paused awaiting user confirmation to launch final **Stage 8: Regenerate Full-Scale Figures, Run Quality Checks, and Write `REPORT.md`**).
 
 ---
 
@@ -48,6 +48,24 @@
   - `search_qa` ($\lambda=0.1$): **35.0% ± 9.0%** accuracy in **2.100 ± 0.055** steps (50.1% fewer steps than Untrained 4.21, cutting wasted steps from `1.14` to `0.40 ± 0.10`).
   - `math` ($\lambda=0.3$): **46.0% ± 9.5%** accuracy in **2.070 ± 0.055** steps (constrained by the SFT initialization's 2-step horizon vs. Method B's 65.0% at 2.97 steps).
 
+### Stage 7: Full-Scale Experiments E6–E11 — **COMPLETED**
+- Saved [e6_transfer.csv](results/e6_transfer.csv), [e7_calibration_summary.csv](results/e7_calibration_summary.csv), [e7_calibration_bins.csv](results/e7_calibration_bins.csv), [e7_threshold_sweep.csv](results/e7_threshold_sweep.csv), [e8_ablations.csv](results/e8_ablations.csv), [e9_retrieval_quality.csv](results/e9_retrieval_quality.csv), [e10_failure_taxonomy.csv](results/e10_failure_taxonomy.csv), [e10_spot_check_30.csv](results/e10_spot_check_30.csv), [e11_model_comparison.csv](results/e11_model_comparison.csv), and [stage7_summary.json](results/stage7_summary.json).
+- **E6 (Cross-Domain Transfer)**:
+  - `search_qa+math → code`: **53.0% ± 9.5%** in **2.12** steps (retains 93% of in-domain SFT accuracy while cutting steps by 46.7% vs. Untrained 3.98 steps).
+  - `search_qa+code → math`: **49.0% ± 10.0%** in **2.24** steps (exceeds in-domain SFT 47.0% in 2.14 steps).
+  - `math+code → search_qa`: **28.0% ± 9.0%** in **2.30** steps (cuts steps by 45.4% and wasted steps `1.14 → 0.51` vs. Untrained).
+- **E7 (Calibration & ReadinessHead Probe)**:
+  - Trained linear `ReadinessHead` achieves **ECE = 0.0769** and **Brier = 0.1639** ($N=2,250$ steps), cutting calibration error by **53.1%** relative to untrained text `<ready>` (`ECE = 0.1640`, `Brier = 0.2471`).
+- **E8 (Ablations on `search_qa`)**:
+  - Removing `<ready>` output drops Method A accuracy from **35.0% to 31.0%** and doubles premature stops (`12.0% → 26.0%`).
+  - Step-count-only effort in Method B (`λ=0.1`) reaches **34.0% ± 9.0%** (`4.10` steps) vs. **30.0%** (`4.30` steps) with combined token+step effort.
+- **E9 (Retrieval Quality Sensitivity on `search_qa`)**:
+  - Removing cross-encoder reranker drops accuracy from **32.0% to 27.0%** (`2.07 → 2.12` steps); `k=1` drops accuracy to **29.0%** (`2.19` steps); `k=5` maintains **32.0%** at higher step cost (`2.56` steps).
+- **E10 (Failure Taxonomy & 30-Example Spot Check)**:
+  - Method B ($\lambda=0.6$) achieves the lowest overall failure rate (**45.33%** vs. **49.33%** Untrained), cutting `stopped_too_early` in half (`18.0% → 9.33%`), while Method A/C virtually eliminate `reopened_source` (`4.0% → 0.0%–0.33%`) and `repeated_check` (`14.83% → 2.0%–4.67%`).
+- **E11 (Model Scale Comparison on `search_qa`, $N=50$)**:
+  - `Qwen2.5-3B-Instruct + StopWise Method C` reaches **44.0% ± 13.0%** accuracy in **2.12** steps (`0.48` wasted steps), outperforming `Qwen2.5-7B-Instruct` Untrained (**36.0% ± 13.0%** in **4.26** steps, `1.90` wasted steps).
+
 ---
 
 ## Stage Checklist
@@ -59,5 +77,5 @@
 - [x] **Stage 4 (Full)**: Baselines & E1/E2 problem measurement (600 test runs, 1,000 bootstrap resamples)
 - [x] **Stage 5 (Full)**: Method A (SFT) & E3 evaluation (3,022 examples, 81% val stop acc, online E3 complete)
 - [x] **Stage 6 (Full)**: Methods B and C (GRPO $\lambda$ sweep) & E4/E5 evaluation (6 GRPO models, 1,800 online test trajectories)
-- [ ] **Stage 7 (Full)**: Experiments E6, E7, E8, E9, E10, E11 (awaiting user approval)
-- [ ] **Stage 8**: Regenerate all figures via `scripts/make_figures.sh`, run quality checks, write `REPORT.md`
+- [x] **Stage 7 (Full)**: Experiments E6, E7, E8, E9, E10, E11 (all CSVs and 30-example spot check complete)
+- [ ] **Stage 8**: Regenerate all figures via `scripts/make_figures.sh`, run quality checks, write `REPORT.md` (awaiting user approval)

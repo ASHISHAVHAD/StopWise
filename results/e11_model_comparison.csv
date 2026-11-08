@@ -1,0 +1,3 @@
+model,domain,n,accuracy,accuracy_ci,accuracy_half_width,mean_steps,mean_steps_ci,mean_steps_half_width,premature_stop_rate,premature_stop_ci,over_run_rate,over_run_ci,mean_wasted_steps,mean_wasted_ci,auc_acc_vs_steps,steps_saved_vs_fixed,early_answer_rate
+Qwen2.5-7B-Instruct (Untrained Own Decision),search_qa,50,0.36,0.360 ± 0.130,0.13,4.26,4.260 ± 0.540,0.54,0.02,0.020 ± 0.030,0.6,0.600 ± 0.140,1.9,1.900 ± 0.570,0.2948,-2.26,0.0
+Qwen2.5-3B-Instruct + StopWise Method C (Ours),search_qa,50,0.44,0.440 ± 0.130,0.1302,2.12,2.120 ± 0.090,0.09,0.3,0.300 ± 0.130,0.46,0.460 ± 0.140,0.48,0.480 ± 0.150,0.4126,-0.12,0.0
