@@ -337,6 +337,38 @@ def make_all_figures(results_dir: str | Path = "results", prefix: str = "") -> N
         fig.savefig(res / f"{prefix}fig_e10_failure_taxonomy.png", bbox_inches="tight")
         plt.close(fig)
 
+    # 11. E11: Model Scale Comparison (Qwen2.5-7B-Instruct vs Qwen2.5-3B-Instruct + StopWise Method C)
+    e11_csv = res / f"{prefix}e11_model_comparison.csv"
+    if e11_csv.exists():
+        df_e11 = pd.read_csv(e11_csv)
+        if not df_e11.empty:
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.8, 3.8))
+            x = np.arange(len(df_e11))
+            short_labels = ["Qwen2.5-7B\n(Untrained)", "Qwen2.5-3B\n+ StopWise C"]
+            if len(df_e11) != 2:
+                short_labels = list(df_e11["model"])
+            ax1.bar(x, df_e11["accuracy"], width=0.5, color=["#999999", "#2b8cbe"])
+            ax1.set_xticks(x)
+            ax1.set_xticklabels(short_labels)
+            ax1.set_ylabel("Search QA Accuracy")
+            ax1.set_ylim(0, 0.7)
+            ax1.set_title("E11: Task Accuracy (3B StopWise vs. 7B Base)")
+            ax1.grid(True, axis="y", alpha=0.3)
+
+            w = 0.35
+            ax2.bar(x - w / 2, df_e11["mean_steps"], width=w, color="#ff7f00", label="Mean Steps")
+            ax2.bar(x + w / 2, df_e11["mean_wasted_steps"], width=w, color="#e41a1c", label="Wasted Steps")
+            ax2.set_xticks(x)
+            ax2.set_xticklabels(short_labels)
+            ax2.set_ylabel("Steps per Trajectory")
+            ax2.set_title("E11: Step Cost & Wasted Steps")
+            ax2.grid(True, axis="y", alpha=0.3)
+            ax2.legend()
+            fig.tight_layout()
+            fig.savefig(res / f"{prefix}fig_e11_model_comparison.png", bbox_inches="tight")
+            plt.close(fig)
+
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

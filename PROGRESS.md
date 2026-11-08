@@ -1,7 +1,7 @@
 # StopWise Project Progress (`PROGRESS.md`)
 
-## Current Status (Updated 2026-11-08 09:04 IST)
-- **Currently Running**: **NONE** (Full-scale Stage 7 completed; paused awaiting user confirmation to launch final **Stage 8: Regenerate Full-Scale Figures, Run Quality Checks, and Write `REPORT.md`**).
+## Current Status (Updated 2026-11-08 11:34 IST)
+- **Currently Running**: **NONE** — **ALL STAGES (0–8), FULL-SCALE EXPERIMENTS (E1–E11), FIGURES, TESTS, AND `REPORT.md` ARE 100% COMPLETED.**
 
 ---
 
@@ -66,6 +66,12 @@
 - **E11 (Model Scale Comparison on `search_qa`, $N=50$)**:
   - `Qwen2.5-3B-Instruct + StopWise Method C` reaches **44.0% ± 13.0%** accuracy in **2.12** steps (`0.48` wasted steps), outperforming `Qwen2.5-7B-Instruct` Untrained (**36.0% ± 13.0%** in **4.26** steps, `1.90` wasted steps).
 
+### Stage 8: Final Figures, Quality Checks & `REPORT.md` — **COMPLETED**
+- Regenerated all 11 full-scale publication-ready figures (`results/fig_e1_problem_size.png` through `results/fig_e11_model_comparison.png` and `results/fig_stage3_ready_by_step.png`) from the CSVs via `bash scripts/make_figures.sh`.
+- Verified all 33 CSV files in `results/` are non-empty and valid.
+- Verified **12/12** unit and train/test zero-leakage tests pass (`.venv/bin/pytest tests/ -v`).
+- Wrote final comprehensive report in [REPORT.md](REPORT.md) covering Abstract, Methodology, Setup, E1–E11 tables/figures/interpretations, explicit evaluation of H1–H5, and Limitations.
+
 ---
 
 ## Stage Checklist
@@ -78,4 +84,4 @@
 - [x] **Stage 5 (Full)**: Method A (SFT) & E3 evaluation (3,022 examples, 81% val stop acc, online E3 complete)
 - [x] **Stage 6 (Full)**: Methods B and C (GRPO $\lambda$ sweep) & E4/E5 evaluation (6 GRPO models, 1,800 online test trajectories)
 - [x] **Stage 7 (Full)**: Experiments E6, E7, E8, E9, E10, E11 (all CSVs and 30-example spot check complete)
-- [ ] **Stage 8**: Regenerate all figures via `scripts/make_figures.sh`, run quality checks, write `REPORT.md` (awaiting user approval)
+- [x] **Stage 8**: Regenerate all figures via `scripts/make_figures.sh`, run quality checks, write `REPORT.md`
