@@ -299,3 +299,4 @@ All stages are deterministic and resumable via `bash scripts/run_all.sh` (or ind
 - **Stage Progress Log**: [PROGRESS.md](PROGRESS.md)
 - **Result Tables**: `results/e1_problem_size.csv` through `results/e11_model_comparison.csv`
 - **Figures**: `results/fig_e1_problem_size.png` through `results/fig_e11_model_comparison.png` and `results/fig_stage3_ready_by_step.png`
+

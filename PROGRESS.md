@@ -1,5 +1,7 @@
 # StopWise Project Progress (`PROGRESS.md`)
 
+## Current Status (Updated 2026-11-08 09:04 IST)
+- **Currently Running**: **NONE** (Full-scale Stage 7 completed; paused awaiting user confirmation to launch final **Stage 8: Regenerate Full-Scale Figures, Run Quality Checks, and Write `REPORT.md`**).
 ## Current Status (Updated 2026-11-08 11:34 IST)
 - **Currently Running**: **NONE** — **ALL STAGES (0–8), FULL-SCALE EXPERIMENTS (E1–E11), FIGURES, TESTS, AND `REPORT.md` ARE 100% COMPLETED.**
 
@@ -84,4 +86,5 @@
 - [x] **Stage 5 (Full)**: Method A (SFT) & E3 evaluation (3,022 examples, 81% val stop acc, online E3 complete)
 - [x] **Stage 6 (Full)**: Methods B and C (GRPO $\lambda$ sweep) & E4/E5 evaluation (6 GRPO models, 1,800 online test trajectories)
 - [x] **Stage 7 (Full)**: Experiments E6, E7, E8, E9, E10, E11 (all CSVs and 30-example spot check complete)
+- [ ] **Stage 8**: Regenerate all figures via `scripts/make_figures.sh`, run quality checks, write `REPORT.md` (awaiting user approval)
 - [x] **Stage 8**: Regenerate all figures via `scripts/make_figures.sh`, run quality checks, write `REPORT.md`
