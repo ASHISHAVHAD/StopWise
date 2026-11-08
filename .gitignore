@@ -9,6 +9,12 @@ data/index/faiss.index
 data/index/bm25.pkl
 data/index/passages.jsonl
 data/index_smoke/
-checkpoints/
+checkpoints/smoke/
+checkpoints/full/*/step_*/
+checkpoints/full/*/*.safetensors
+checkpoints/full/*/*.bin
+checkpoints/full/*/tokenizer.json
+checkpoints/full/*/vocab.json
+checkpoints/full/*/merges.txt
 runs/
 

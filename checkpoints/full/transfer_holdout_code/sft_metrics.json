@@ -1,0 +1,10 @@
+{
+  "train_examples": 1588,
+  "val_examples": 46,
+  "epochs": 2,
+  "global_steps": 398,
+  "final_train_loss": 0.111,
+  "val_action_accuracy": 0.413,
+  "val_stop_binary_accuracy": 0.7174,
+  "val_readiness_mae": 0.2587
+}
